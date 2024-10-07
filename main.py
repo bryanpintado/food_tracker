@@ -1,5 +1,10 @@
 import requests
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
+cl_id = os.getenv('client_id')
+cl_secret = os.getenv('client_secret')
 
 auth_url = 'https://oauth.fatsecret.com/connect/token'
 
@@ -8,7 +13,7 @@ def auth():
     'grant_type' : 'client_credentials',
     'client_id' : cl_id,
     'client_secret' : cl_secret,
-    'scope' : 'premier free'
+    'scope' : 'basic'
     } 
     response = requests.post(auth_url, data=payload)
     token = response.json()['access_token']
@@ -16,7 +21,6 @@ def auth():
 
 def get_barcode(f_id):
     token = auth()
-    
     barcode = str(f_id)
     url = f'https://platform.fatsecret.com/rest/food/barcode/find-by-id/v1'
     headers = {
