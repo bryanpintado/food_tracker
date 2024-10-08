@@ -1,4 +1,5 @@
 import requests
+import ast
 from dotenv import load_dotenv
 import os
 
@@ -6,14 +7,12 @@ load_dotenv()
 cl_id = os.getenv('client_id')
 cl_secret = os.getenv('client_secret')
 
-
-
 def auth():
     payload = {
     'grant_type' : 'client_credentials',
     'client_id' : cl_id,
     'client_secret' : cl_secret,
-    'scope' : 'basic'
+    'scope' : 'barcode'
     } 
     url = 'https://oauth.fatsecret.com/connect/token'
     response = requests.post(url, data=payload)
@@ -23,26 +22,24 @@ def auth():
     else:
         print("Token not created",response.status_code,response.text)
 
-
-def get_barcode(barcode):
+def scan_barcode(barcode):
     token = auth()
     if not token: 
         print("token error")
         return
-    url = f'https://platform.fatsecret.com/rest/food/barcode/find-by-id/v1'
+    url = 'https://platform.fatsecret.com/rest/food/barcode/find-by-id/v1' 
+    params = {
+        'barcode' : str(barcode),
+        'format' : 'json'
+    }
     headers = {
         'Authorization' : f'Bearer {token}'
     }
-    params = {
-        'barcode' : str(barcode)
-    }
-    response = requests.get(url, headers=headers, params=params)
+    response = requests.get(url=url, headers=headers, params=params)
     if response.status_code == 200:
-        print(response.text)
-        return
+        return response.json()
     else: 
         print(response.status_code,response.text)
-        return
 
 def search_food(food_name):
     token = auth()
@@ -61,6 +58,11 @@ def search_food(food_name):
     if response.status_code == 200:
         print(response.json())
 
+def barcode_info():
+    barcode = scan_barcode()
 
-#get_barcode(8076800195033)
-search_food('big mac')
+ex = scan_barcode(8076800195033)['food_id']['value']
+print(ex)
+#ex = ast.literal_eval(ex)
+#print(ex['food_id']['value'])
+#search_food('big mac')
