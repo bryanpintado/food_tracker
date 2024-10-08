@@ -22,7 +22,7 @@ def auth():
     else:
         print("Token not created",response.status_code,response.text)
 
-def scan_barcode(barcode):
+def barcode_to_id(barcode):
     token = auth()
     if not token: 
         print("token error")
@@ -37,7 +37,7 @@ def scan_barcode(barcode):
     }
     response = requests.get(url=url, headers=headers, params=params)
     if response.status_code == 200:
-        return response.json()
+        return response.json()['food_id']['value']
     else: 
         print(response.status_code,response.text)
 
@@ -58,11 +58,21 @@ def search_food(food_name):
     if response.status_code == 200:
         print(response.json())
 
-def barcode_info():
-    barcode = scan_barcode()
+def barcode_info(barcode):
+    food_id = int(barcode_to_id(barcode))
+    token = auth()
+    if not food_id:
+        print('barcode_to_id() error')
+    url = 'https://platform.fatsecret.com/rest/food/v4'
+    params = {
+        'food_id' : food_id,
+        'format' : 'json'
+    }
+    headers = {
+        'Authorization' : f'Bearer {token}'
+    }
+    response = requests.get(url=url, params=params, headers=headers)
+    print(response.json())
 
-ex = scan_barcode(8076800195033)['food_id']['value']
-print(ex)
-#ex = ast.literal_eval(ex)
-#print(ex['food_id']['value'])
-#search_food('big mac')
+
+barcode_info(8076800195033)
