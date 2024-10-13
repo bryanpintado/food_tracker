@@ -1,22 +1,31 @@
 <!DOCTYPE html>
+
 <html>
     <head>
         <title>Food Calorie Tracker</title>
         <style>
             img {
                 width: 100px;
-                 border-radius: 10px;
-                 float: left;
-                 margin-right: 10px;
-            }
-            p{
+                border-radius: 10px;
                 
+            }
+            button{
+                float:left;
+                width: 200px;
             }
         </style>
     </head> 
         <body>
-           <img src="images/3232821.png" alt="image not available">
-           <p>Hi </p>
-           <p>enter food barcode</p>
+            <img src="/static/tempLogo.png" alt="image not available">
+            <br>
+            <div>
+                <h1><p> Hi Bryan  </p></h1>
+                <h2><p>Enter food barcode</p></h2>
+                <form >
+                    <label for="barcode"> Enter Barcode: </label>
+                    <input type="text" id="barcode" name="barcode" placeholder="barcode">
+                </form>
+            <button> Search Food </button>
+            </div>
         </body>
 </html>
