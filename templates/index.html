@@ -18,14 +18,14 @@
         <body>
             <img src="/static/tempLogo.png" alt="image not available">
             <br>
-            <div>
                 <h1><p> Hi Bryan  </p></h1>
                 <h2><p>Enter food barcode</p></h2>
-                <form >
+                <form action="{{barcode_data}}" method="post">
                     <label for="barcode"> Enter Barcode: </label>
+                    <div>
                     <input type="text" id="barcode" name="barcode" placeholder="barcode">
+                    <div>
+                    <input type="submit" id="barcode">
                 </form>
-            <button> Search Food </button>
-            </div>
         </body>
 </html>

@@ -1,5 +1,4 @@
 import requests
-import ast
 from dotenv import load_dotenv
 import os
 
@@ -7,6 +6,7 @@ load_dotenv()
 cl_id = os.getenv('client_id')
 cl_secret = os.getenv('client_secret')
 
+#auth 2.0
 def auth():
     payload = {
     'grant_type' : 'client_credentials',
@@ -22,7 +22,7 @@ def auth():
     else:
         print("Token not created",response.status_code,response.text)
 
-def barcode_to_id(barcode):
+def barcode_to_food_id(barcode):
     token = auth()
     if not token: 
         print("token error")
@@ -59,7 +59,7 @@ def search_food(food_name):
         print(response.json())
 
 def barcode_info(barcode):
-    food_id = int(barcode_to_id(barcode))
+    food_id = int(barcode_to_food_id(barcode))
     token = auth()
     if not food_id:
         print('barcode_to_id() error')
