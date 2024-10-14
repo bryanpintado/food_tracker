@@ -72,7 +72,6 @@ def barcode_info(barcode):
         'Authorization' : f'Bearer {token}'
     }
     response = requests.get(url=url, params=params, headers=headers)
-    print(response.json())
+    return response.json()
 
-
-barcode_info(8076800195033)
+# barcode_info(8076800195033)
